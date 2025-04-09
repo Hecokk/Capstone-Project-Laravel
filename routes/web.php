@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\GoogleBooksController;
+use App\Http\Controllers\ReviewLikeController;
+use App\Http\Controllers\ReviewCommentController;
 
 // Home route
 Route::get('/', [HomeController::class, 'index'])
@@ -13,9 +15,10 @@ Route::get('/', [HomeController::class, 'index'])
     ->middleware(\App\Http\Middleware\RedirectAuthenticatedUserFromWelcome::class)
     ->name('home');
 
-// Dashboard
+// Dashboard (Redirect to user.home)
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // return view('dashboard'); // Komentari view lama
+    return redirect()->route('user.home'); // Redirect ke user home baru
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Auth routes
@@ -54,6 +57,16 @@ Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index'
 Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])
     ->middleware('auth')
     ->name('reviews.store');
+
+// Route untuk Like/Unlike Ulasan
+Route::post('/reviews/{review}/like', [ReviewLikeController::class, 'toggleLike'])
+    ->middleware('auth')
+    ->name('reviews.like.toggle');
+
+// Route untuk menyimpan komentar ulasan
+Route::post('/reviews/{review}/comments', [ReviewCommentController::class, 'store'])
+    ->middleware('auth')
+    ->name('reviews.comments.store');
 
 // User Home Page (for logged-in users)
 Route::get('/user-home', [HomeController::class, 'userHome'])

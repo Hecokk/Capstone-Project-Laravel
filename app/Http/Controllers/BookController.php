@@ -29,16 +29,18 @@ class BookController extends Controller
     }
 
     /**
-     * Display a listing of the resource (all books from local database).
+     * Display a listing of random trending books from Google Books API.
      *
      * @return View
      */
     public function index(): View
     {
-        $books = Book::with(['author', 'genre'])
-            ->latest()
-            ->paginate(12);
-        return view('books.index', compact('books'));
+        // Ambil buku acak/trending dari Google Books Service, prioritas Bahasa Indonesia
+        $googleBooks = $this->googleBooksApiService->getRandomBooks(18, ['langRestrict' => 'id']); // Tambahkan langRestrict
+
+        // Kirim data Google Books ke view yang sama (books.index)
+        // View perlu disesuaikan untuk menangani format data Google Books
+        return view('books.index', ['googleBooks' => $googleBooks]);
     }
 
     /**

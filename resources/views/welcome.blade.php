@@ -10,25 +10,25 @@
                     <div class="row justify-content-center text-center mb-5">
                         <div class="col-md-3 mb-3">
                             <div class="counter-box">
-                                <h2 class="counter-number">12.5jt</h2>
+                                <h2 class="counter-number">12.5M</h2>
                                 <p class="counter-label">Books Read</p>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="counter-box">
-                                <h2 class="counter-number">1.2jt</h2>
+                                <h2 class="counter-number">1.2M</h2>
                                 <p class="counter-label">Books Cataloged</p>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="counter-box">
-                                <h2 class="counter-number">8.7jt</h2>
+                                <h2 class="counter-number">8.7M</h2>
                                 <p class="counter-label">Ratings Submitted</p>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="counter-box">
-                                <h2 class="counter-number">1.6jt</h2>
+                                <h2 class="counter-number">1.6M</h2>
                                 <p class="counter-label">Reviews Written</p>
                             </div>
                         </div>
@@ -51,8 +51,12 @@
                         @if (isset($book['google_books_id']))
                         {{-- Buku dari Google Books API --}}
                         <a href="{{ route('google-books.show', $book['google_books_id']) }}" class="text-decoration-none">
-                            <img src="{{ $book['thumbnail'] ?? 'https://placehold.co/200x300/3d405b/FFFFFF?text=No+Cover' }}"
-                                class="img-fluid rounded" alt="{{ $book['title'] }} Book Cover">
+                            <div class="position-relative bg-light text-center rounded shadow-sm">
+                                <img src="{{ $book['thumbnail'] ?? 'https://placehold.co/200x300/3d405b/FFFFFF?text=No+Cover' }}"
+                                    class="img-fluid"
+                                    style="height: 180px; width: auto; object-fit: contain;"
+                                    alt="{{ $book['title'] }} Book Cover">
+                            </div>
                             <h5 class="book-title mt-2">{{ $book['title'] }}</h5>
                             <p class="book-author small text-muted">{{ $book['author_name'] }}</p>
                         </a>
@@ -66,8 +70,12 @@
                         @else
                         {{-- Buku dari database lokal --}}
                         <a href="{{ route('books.show', $book) }}" class="text-decoration-none">
-                            <img src="{{ $book->cover_image_path ?? 'https://placehold.co/200x300/3d405b/FFFFFF?text=No+Cover' }}"
-                                class="img-fluid rounded" alt="{{ $book->title }} Book Cover">
+                            <div class="position-relative bg-light text-center rounded shadow-sm">
+                                <img src="{{ $book->cover_image_path ?? 'https://placehold.co/200x300/3d405b/FFFFFF?text=No+Cover' }}"
+                                    class="img-fluid"
+                                    style="height: 180px; width: auto; object-fit: contain;"
+                                    alt="{{ $book->title }} Book Cover">
+                            </div>
                             <h5 class="book-title mt-2">{{ $book->title }}</h5>
                             <p class="book-author small text-muted">{{ $book->author->name ?? 'Unknown Author' }}</p>
                         </a>

@@ -7,11 +7,13 @@
         <div class="row">
             <!-- Book Cover & Info (Kolom Kiri) -->
             <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                {{-- Menambahkan style untuk tinggi tetap dan object-fit --}}
-                <img src="{{ $book->cover_image_path ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
-                    class="book-cover img-fluid mb-4 rounded shadow-sm" {{-- Tambah class styling --}}
-                    style="height: 350px; width: 100%; object-fit: cover;" {{-- Style inline untuk ukuran & fit --}}
-                    alt="{{ $book->title }} Book Cover">
+                {{-- Menggunakan contain, width auto, dan bg-light --}}
+                <div class="position-relative bg-light text-center rounded shadow-sm mb-4"> {{-- Pindahkan class ke div --}}
+                    <img src="{{ $book->cover_image_path ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
+                        class="book-cover img-fluid" {{-- Hapus class styling dari img --}}
+                        style="height: 350px; width: auto; object-fit: contain;" {{-- Ganti cover -> contain, width auto --}}
+                        alt="{{ $book->title }} Book Cover">
+                </div>
 
                 {{-- Tombol Aksi (Tambahkan logika @auth jika perlu) --}}
                 <div class="d-grid gap-2 mb-4">

@@ -110,16 +110,29 @@ Ini adalah daftar tugas untuk membangun backend Laravel untuk proyek BookTrackr.
    [✓] Menguji proses import buku dari API
 
 8. Fitur Tambahan (Opsional)
-   [] Menambahkan fitur pencarian otomatis saat mengetik (autocomplete)
-   [✓] Mengimplementasikan lazy loading untuk hasil pencarian
-   [] Menambahkan fitur ekspor data buku ke CSV/PDF
+   [ ] Menambahkan fitur pencarian otomatis saat mengetik (autocomplete)
+   [✓] Mengimplementasikan lazy loading untuk hasil pencarian (via Pagination)
+   [ ] Menambahkan fitur ekspor data buku ke CSV/PDF
 
 9. Dokumentasi
-   [✓] Mendokumentasikan cara penggunaan Google Books API
-   [✓] Membuat panduan untuk admin tentang cara import buku
+   [✓] Mendokumentasikan cara penggunaan Google Books API (di `docs/google-books-api.md`)
+   [✓] Membuat panduan untuk admin tentang cara import buku (di `docs/google-books-api.md`)
    [✓] Menambahkan komentar kode yang lengkap untuk fungsi API
 
 10. Deployment dan Monitoring
-    [✓] Memastikan API key diamankan di production
-    [✓] Menyiapkan monitoring penggunaan API (jumlah request)
-    [✓] Mengimplementasikan error handling untuk kegagalan API
+    [✓] Memastikan API key diamankan di production (via `.env`)
+    [✓] Menyiapkan monitoring penggunaan API (jumlah request) (via Google Cloud Console)
+    [✓] Mengimplementasikan error handling untuk kegagalan API (di Service & Controller)
+
+## Tahap 5: Penyempurnaan & Lain-lain (Contoh)
+
+-   [ ] Implementasi Pelacakan Bacaan (Reading Status: reading, read, want_to_read).
+-   [ ] Implementasi Fitur Daftar Buku Kustom (Reading Lists).
+-   [ ] Selesaikan TODOs di kode (misal: implementasi import, rating detail, dll.)
+-   [ ] **Perbarui Counter Halaman Utama:**
+    -   [ ] Ganti angka hardcoded (12.5M, 1.2M, dll.) di `welcome.blade.php`.
+    -   [ ] Ambil data agregat dari database (misal: `Book::count()`, `Review::count()`).
+    -   [ ] Implementasikan caching untuk data counter agar tidak query database setiap request.
+    -   [ ] (Tergantung Fitur Status Bacaan) Implementasi counter "Books Read".
+-   [ ] Buat Panel Admin (jika diperlukan).
+-   [ ] Testing lebih lanjut (Unit, Feature, Browser).

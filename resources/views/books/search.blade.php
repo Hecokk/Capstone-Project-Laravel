@@ -78,10 +78,10 @@
                 @foreach ($books as $book)
                 <div class="col">
                     <div class="card h-100 book-card shadow-sm">
-                        <div class="position-relative">
+                        <div class="position-relative bg-light text-center">
                             <img src="{{ $book->cover_image_path ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
                                 class="card-img-top" alt="{{ $book->title }} Cover"
-                                style="height: 220px; object-fit: cover;">
+                                style="height: 220px; width: auto; object-fit: contain;">
 
                             @if ($book->publication_year >= date('Y'))
                             <span class="badge bg-warning position-absolute top-0 end-0 mt-2 me-2">
@@ -120,19 +120,20 @@
                 }
                 @endphp
                 <div class="col">
-                    <div class="card h-100 book-card shadow-sm">
-                        <div class="position-relative">
+                    <div class="card h-100 book-card shadow-sm d-flex flex-column">
+                        <div class="position-relative bg-light text-center">
                             <img src="{{ $thumbnail ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
                                 class="card-img-top" alt="{{ $title }} Cover"
-                                style="height: 220px; object-fit: cover;">
+                                style="height: 220px; width: auto; object-fit: contain;">
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title book-title">{{ $title }}</h5>
-                            <p class="card-text book-author text-muted mb-1">oleh {{ $authors }}</p>
+                        <div class="card-body d-flex flex-column">
+                            <div>
+                                <h5 class="card-title book-title">{{ $title }}</h5>
+                                <p class="card-text book-author text-muted mb-1">oleh {{ $authors }}</p>
+                                <p class="card-text small text-muted mt-2">{{ $description }}</p>
+                            </div>
 
-                            <p class="card-text small text-muted mt-2">{{ $description }}</p>
-
-                            <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
                                 <a href="{{ route('google-books.show', $id) }}" class="btn btn-sm btn-primary">Detail</a>
 
                                 @auth
@@ -153,14 +154,6 @@
             <div class="mt-4">
                 @if (!$books->isEmpty())
                 {{ $books->links() }}
-                @endif
-
-                @if (!empty($googleBooks) && !empty($query))
-                <div class="text-center mt-3">
-                    <a href="{{ route('google-books.search', ['query' => $query]) }}" class="btn btn-outline-primary">
-                        Lihat Lebih Banyak
-                    </a>
-                </div>
                 @endif
             </div>
             @endif

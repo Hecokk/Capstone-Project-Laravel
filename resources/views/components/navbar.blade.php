@@ -25,8 +25,15 @@
                     <a class="nav-link {{ request()->routeIs('reviews.index') ? 'active' : '' }}"
                         href="{{ route('reviews.index') }}">Reviews</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Lists</a> {{-- Arahkan ke route daftar bacaan nanti --}}
+                {{-- Mengubah Lists menjadi Browse Dropdown --}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="browseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Browse
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="browseDropdown">
+                        <li><a class="dropdown-item" href="#">Categories</a></li> {{-- TODO: Arahkan ke route kategori --}}
+                        <li><a class="dropdown-item" href="#">News</a></li> {{-- TODO: Arahkan ke route artikel/news --}}
+                    </ul>
                 </li>
             </ul>
 
@@ -76,10 +83,10 @@
                 </li>
                 @else
                 {{-- Tautan untuk Pengguna yang Sudah Login --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-                        href="{{ route('dashboard') }}">Dashboard</a>
-                </li>
+                href="{{ route('dashboard') }}">Dashboard</a>
+                </li> --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">

@@ -4,12 +4,12 @@
 <div class="container py-5">
     <div class="row mb-4">
         <div class="col-md-8">
-            <h2 class="mb-0">Katalog Buku</h2>
-            <p class="text-muted">Jelajahi koleksi lengkap buku kami</p>
+            <h2 class="mb-0">Browse Books</h2>
+            <p class="text-muted">Explore popular and trending books</p>
         </div>
         <div class="col-md-4">
             <form action="{{ route('books.search') }}" method="GET" class="d-flex">
-                <input type="text" name="query" class="form-control me-2" placeholder="Cari buku...">
+                <input type="text" name="query" class="form-control me-2" placeholder="Search books...">
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-search"></i>
                 </button>
@@ -17,46 +17,42 @@
         </div>
     </div>
 
-    @if ($books->isEmpty())
+    @if (empty($googleBooks))
     <div class="alert alert-info">
-        <i class="fas fa-info-circle me-2"></i> Belum ada buku yang ditambahkan ke katalog.
+        <i class="fas fa-info-circle me-2"></i> Could not retrieve books at this time.
     </div>
     @else
-    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-        @foreach ($books as $book)
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-4">
+        @foreach ($googleBooks as $googleBook)
+        @php
+        $volumeInfo = $googleBook['volumeInfo'] ?? [];
+        $id = $googleBook['id'] ?? '';
+        $title = Str::limit($volumeInfo['title'] ?? 'Untitled', 50);
+        $authors = isset($volumeInfo['authors']) ? implode(', ', $volumeInfo['authors']) : 'Unknown';
+        $thumbnail = $volumeInfo['imageLinks']['thumbnail'] ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover';
+        @endphp
         <div class="col">
             <div class="card h-100 book-card shadow-sm">
-                <div class="position-relative">
-                    <img src="{{ $book->cover_image_path ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
-                        class="card-img-top" alt="{{ $book->title }} Cover" style="height: 220px; object-fit: cover;">
-
-                    @if ($book->publication_year >= date('Y'))
-                    <span class="badge bg-warning position-absolute top-0 end-0 mt-2 me-2">
-                        Akan Terbit
-                    </span>
-                    @endif
+                <div class="position-relative bg-light text-center">
+                    <a href="{{ route('google-books.show', $id) }}">
+                        <img src="{{ $thumbnail }}"
+                            class="card-img-top" alt="{{ $title }} Cover"
+                            style="height: 220px; width: auto; object-fit: contain;">
+                    </a>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title book-title">{{ $book->title }}</h5>
-                    <p class="card-text book-author text-muted mb-1">oleh {{ $book->author->name ?? 'Unknown' }}</p>
-                    <p class="card-text mb-2"><small
-                            class="text-muted">{{ $book->genre->name ?? 'Uncategorized' }}</small></p>
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title book-title mt-2 flex-grow-1">
+                        <a href="{{ route('google-books.show', $id) }}" class="text-dark text-decoration-none">{{ $title }}</a>
+                    </h6>
+                    <p class="card-text book-author small text-muted mb-2">by {{ Str::limit($authors, 30) }}</p>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-star text-warning"></i>
-                            <span>4.5</span> {{-- Nanti bisa diganti dengan rata-rata rating asli --}}
-                        </div>
-                        <a href="{{ route('books.show', $book) }}" class="btn btn-sm btn-outline-primary">Detail</a>
+                    <div class="mt-auto">
+                        <a href="{{ route('google-books.show', $id) }}" class="btn btn-sm btn-outline-primary w-100">Details</a>
                     </div>
                 </div>
             </div>
         </div>
         @endforeach
-    </div>
-
-    <div class="mt-4">
-        {{ $books->links() }}
     </div>
     @endif
 </div>
@@ -64,12 +60,19 @@
 
 @push('styles')
 <style>
-.book-card {
-    transition: transform 0.2s;
-}
+    .book-card {
+        transition: transform 0.2s;
+    }
 
-.book-card:hover {
-    transform: translateY(-5px);
-}
+    .book-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .book-title {
+        /* Hapus style ini jika ingin judul wrap */
+        /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+    }
 </style>
 @endpush

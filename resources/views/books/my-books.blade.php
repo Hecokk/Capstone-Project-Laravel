@@ -47,9 +47,11 @@
         <div class="col">
             <div class="card h-100 book-card shadow-sm">
                 <div class="position-relative">
-                    <img src="{{ $book->cover_image_path ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
-                        class="card-img-top" alt="{{ $book->title }} Cover"
-                        style="height: 220px; object-fit: cover;">
+                    <div class="position-relative bg-light text-center">
+                        <img src="{{ $book->cover_image_path ?? 'https://placehold.co/600x900/3d405b/FFFFFF?text=No+Cover' }}"
+                            class="card-img-top" alt="{{ $book->title }} Cover"
+                            style="height: 220px; width: auto; object-fit: contain;">
+                    </div>
 
                     <div class="position-absolute top-0 end-0 mt-2 me-2">
                         <div class="dropdown">
