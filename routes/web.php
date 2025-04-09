@@ -8,7 +8,10 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\GoogleBooksController;
 
 // Home route
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])
+    // ->middleware('guest.welcome') // Menggunakan nama kelas langsung untuk debug
+    ->middleware(\App\Http\Middleware\RedirectAuthenticatedUserFromWelcome::class)
+    ->name('home');
 
 // Dashboard
 Route::get('/dashboard', function () {
@@ -51,6 +54,11 @@ Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index'
 Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])
     ->middleware('auth')
     ->name('reviews.store');
+
+// User Home Page (for logged-in users)
+Route::get('/user-home', [HomeController::class, 'userHome'])
+    ->middleware(['auth', 'verified']) // Memastikan user login & email terverifikasi
+    ->name('user.home');
 
 // Authentication routes
 require __DIR__ . '/auth.php';

@@ -41,4 +41,20 @@ class HomeController extends Controller
         // Kirim data ke view welcome
         return view('welcome', compact('trendingBooks', 'localBooks'));
     }
+
+    /**
+     * Show the user-specific home page (for logged-in users).
+     *
+     * @return View
+     */
+    public function userHome(): View
+    {
+        // Di sini Anda bisa mengambil data spesifik untuk user, e.g.:
+        // - Buku yang sedang dibaca
+        // - Aktivitas teman (jika ada fitur sosial)
+        // - Rekomendasi personal
+
+        // Untuk saat ini, kita tampilkan view sederhana
+        return view('user-home'); // Nama view baru
+    }
 }
