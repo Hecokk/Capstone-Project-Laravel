@@ -14,12 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Health check endpoint for Railway
+// Health check endpoint for Railway - NO middleware
 Route::get('/health', function () {
     return response()->json([
         'status' => 'ok',
         'message' => 'Service is running'
-    ]);
+    ])
+        ->withoutMiddleware(['api']); // Bypass all middleware for health check
 });
 
 // Protected routes
