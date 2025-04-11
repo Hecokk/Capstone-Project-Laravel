@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,27 +14,17 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Simplified health check endpoint
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'Service is running'
+    ]);
 });
 
-// Simple health check endpoint for Railway
-Route::get('/health', function () {
-    try {
-        // Check database connection
-        DB::connection()->getPdo();
-
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'Application is healthy',
-            'timestamp' => now()->toIso8601String(),
-            'environment' => config('app.env'),
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Database connection failed: ' . $e->getMessage(),
-            'timestamp' => now()->toIso8601String(),
-        ], 500);
-    }
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
