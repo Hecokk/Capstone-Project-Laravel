@@ -47,21 +47,26 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict' => false,
+            'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::ATTR_EMULATE_PREPARES => true,
-            ], function ($value) {
-                return $value !== false;
-            }) : [],
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                PDO::ATTR_TIMEOUT => 60,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            ]) : [],
+            'dump' => [
+                'dump_binary_path' => '/usr/bin/mysqldump',
+                'use_single_transaction' => true,
+                'timeout' => 60 * 5,
+            ],
             'modes' => [
                 // Disable strict mode for Railway
                 //'ONLY_FULL_GROUP_BY',
