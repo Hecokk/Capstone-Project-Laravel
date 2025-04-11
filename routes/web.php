@@ -83,7 +83,3 @@ Route::get('/health', function () {
         'message' => 'Service is running'
     ]);
 });
-
-Route::get('/', function () {
-    return view('welcome');
-});

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Simplified health check endpoint
+// Health check endpoint for Railway
 Route::get('/health', function () {
     return response()->json([
         'status' => 'ok',
