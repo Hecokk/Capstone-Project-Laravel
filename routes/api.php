@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 Route::get('/health', function () {
     Log::info('Health check endpoint accessed');
     try {
-        \DB::connection()->getPdo();
+        DB::connection()->getPdo();
         return response()->json([
             'status' => 'ok',
             'message' => 'Service is running',
