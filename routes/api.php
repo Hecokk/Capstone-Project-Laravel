@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Health check endpoint for Railway - NO middleware
+// Health check endpoint - NO AUTH required
 Route::get('/health', function () {
-    return response()->json([
-        'status' => 'ok',
-        'message' => 'Service is running'
-    ])
-        ->withoutMiddleware(['api']); // Bypass all middleware for health check
+    try {
+        \DB::connection()->getPdo();
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Service is running',
+            'database' => 'connected'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Service is running but database connection failed',
+            'error' => $e->getMessage()
+        ], 500);
+    }
 });
 
 // Protected routes
