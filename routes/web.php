@@ -75,3 +75,15 @@ Route::get('/user-home', [HomeController::class, 'userHome'])
 
 // Authentication routes
 require __DIR__ . '/auth.php';
+
+// Simple health check endpoint
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'Service is running'
+    ]);
+});
+
+Route::get('/', function () {
+    return view('welcome');
+});
